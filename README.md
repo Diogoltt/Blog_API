@@ -113,11 +113,4 @@ A API estará disponível em `http://localhost:5126` (ou conforme configurado no
 - **.NET 8.0**
 - **Entity Framework Core 9.0**
 - **SQL Server**
-
-## Contribuição
-
-Contribuições são bem-vindas! Sinta-se à vontade para abrir issues ou enviar pull requests.
-
-## Licença
-
-Este projeto está licenciado sob a [MIT License](https://opensource.org/licenses/MIT).
+- **JWT e Bearer Token**
