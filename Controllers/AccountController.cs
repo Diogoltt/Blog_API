@@ -35,7 +35,8 @@ namespace Blog.Controllers
 
                 return Ok(new ResultViewModel<dynamic>(new
                 {
-                    user = user.Email, password
+                    user = user.Email,
+                    password
                 }));
             }
             catch (DbUpdateException)
@@ -48,12 +49,29 @@ namespace Blog.Controllers
             }
         }
 
-        [HttpPost("v1/login")]
-        public IActionResult Login([FromServices] TokenService tokenService)
+        [HttpPost("v1/accounts/login")]
+        public async Task<IActionResult> Login([FromBody] LoginViewModel model, [FromServices] BlogDataContext context, [FromServices] TokenService tokenService)
         {
-            var token = tokenService.GenerateToken(null);
+            if (!ModelState.IsValid)
+                return BadRequest(new ResultViewModel<string>(ModelState.GetErrors()));
+        
+            var user = await context.Users.AsNoTracking().Include(x => x.Roles).FirstOrDefaultAsync(x => x.Email == model.Email);
 
-            return Ok(token);
+            if (user == null)
+                return StatusCode(401, new ResultViewModel<string>("Usuário ou senha inválidos."));
+
+            if (!PasswordHasher.Verify(user.PasswordHash, model.Password))
+                return StatusCode(401, new ResultViewModel<string>("Usuário ou senha inválidos."));
+
+            try
+            {
+                var token = tokenService.GenerateToken(user);
+                return Ok(new ResultViewModel<string>(token, null));
+            }
+            catch
+            {
+                return StatusCode(500, new ResultViewModel<string>("Falha interna no servidor"));
+            }
         }
     }
 }
