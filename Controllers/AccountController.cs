@@ -107,7 +107,7 @@ namespace Blog.Controllers
             if (user == null)
                 return NotFound(new ResultViewModel<string>("Usuário não encontrado."));
 
-            user.Image = $"https://localhost:0000/images/{fileName}";
+            user.Image = $"https://localhost:5126/images/{fileName}";
             
             try
             {
