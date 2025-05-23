@@ -13,7 +13,7 @@ namespace Blog.Attributes
                 context.Result = new ContentResult()
                 {
                     StatusCode = 401,
-                    Content = "ApiKey n„o encontrada"
+                    Content = "ApiKey n√£o encontrada"
                 };
                 return;
             }
@@ -23,7 +23,7 @@ namespace Blog.Attributes
                 context.Result = new ContentResult()
                 {
                     StatusCode = 403,
-                    Content = "Acesso n„o autorizado"
+                    Content = "Acesso n√£o autorizado"
                 };
                 return;
             }
